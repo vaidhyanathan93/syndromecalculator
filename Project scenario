@@ -1,0 +1,85 @@
+VELAMMAL ENGINEERING COLLEGE
+
+
+Introduction
+Cyclic Code
+		Cyclic codes form a subclass of linear block codes. Indeed , many of the important linear block codes discovered to date are either cyclic codes or closely related cyclic codes. An advantage of cyclic codes over most other types of codes is that they are easy to encode. Furthermore , cyclic codes possess a well-defined mathematical structure , which has led to the development of very efficient decoding schemed for them.
+		A binary code is said to be cyclic if it exhibits the two fundamental properties:
+1. Linearity property: The sum of any two code words in the code should also be a codeword
+2. Cyclic property: Any cyclic shift of a code word in the code is also a codeword
+ 
+		Property one restates that a cyclic code is a linear block code(i.e. it can be described as a parity check code). To restate property two in mathematical terms, let the n-tuple(c0,c1,….,cn-1)denote a codeword of a (n,k) linear block code. The code is a cyclic code if the n-tuples are all codewords of the code
+
+			(cn-1, c0, …., cn-2)
+			(cn-2, cn-1, …., cn-3)
+ 				:
+				:
+			(c1, c2, …., cn-1)
+Parity Check polynomial
+	A (n,k) cyclic code is uniquely specified by its generator polynomial g(X) of the order n-k. Such a code is also uniquely specified by another polynomial of the degree k , which is called as the parity check polynomial , which is defined by 
+
+			(x+a)^n=∑_(i=1)^(k-1)▒〖h〖i.X〗^i 〗 + Xk + 1
+where the coefficient hi is 1 or 0. The parity check polynomial h(X) has a form similar to the generator polynomial in that there are two terms with coefficients 1 , but are separated by k-1 terms.
+Generator Polynomial
+		The polynomial Xn+1 and its factors play a major role in the generation of cyclic codes. Let g(X) be a polynomial of degree n-k that is a factor of Xn+1; as such , g(X) is a polynomial of the least degree in the code. In general , g(X) may be expanded as follows :
+ 
+		g(X)=∑_(i=1)^(n-k-1)▒giXl+ Xn-k + 1  
+where the coefficient gi is equal to one or zero. According to this expansion , the polynomial g(X) has two terms with coefficient one separated by n-k-1 terms. The polynomial g(X) is called as the generator polynomial of the cyclic code. A cyclic code is uniquely determined by the generator polynomial g(X) in that each code polynomial in the code can be expressed as in the form of a polynomial product as follow :
+			c(X)=a(X).g(X)
+where a(X) is a polynomial in X with degree k-1. The c(X) so formed satisfied the condition since g(X) is a factor of Xn+1.
+
+Encoder for cyclic codes
+		The enoding procedure for an (n,k) cyclic code in the systematic form involves three steps : (i) Multiplication of the message polynomial m(x) by Xn-k (ii) division of Xn-km(X) by the generator polynomial g(X) to obtain the reminder b(X) , and (iii) addition of b(X) to Xn-km(X) to form the desired code polynomial. These three steps can be implemented by means of the encoder consisting of linear feedback shift register with (n-k) stages.
+		The boxes represent flip flops or unit delay elements. The flip flop is a device that resides in one of the two possible states denoted by either 1 or 0. An external clock controls the operation of all the flip flops. Every time the clock ticks, the contents of the flip flops (initially set to 0) are shifted out in the direction of the arrows. In addition to the flip flops , then encoder includes a second set of logic elements namely adders , which compute the modulo 2 addition of their respective inputs. Finally, the multipliers multiply their respective inputs by associated coefficients. In particular, of the coefficient gi=1 , the multiplier is just a direct connection. If on the other hand, the coefficient is 0 , the multiplier has no connection.		
+ 			
+	The operation of the encoder is shown as follows:
+	The gate is switched on. Hence, the k message bits are shifted in the channel. As soon as the k message bits have entered the shift registers,  the resulting (n-k) bits in the register form the parity bits[recall that the parity bits are the same as the coefficients of the reminder b(X)]
+	The gate is switched off , thereby breaking the feedback connections
+	The contents of the shift register are shifted out into the channel
+ 
+
+Calculation of Syndrome
+		Suppose the codeword (c1, c2, …., cn-1) is transmitted over a noisy channel , resulting in the received word (r1, r2, …., rn-1). The first step in the coding of a linear block code is to calculate the syndrome for the received word. If the syndrome is zero , there are no errors in the transmission, If , on the other hand , the syndrome is non zero , the received word contains transmission errors that require correction.
+		In case of a cyclic code in systematic form, the syndrome can be calculated easily. Let the received code word be represented by a polynomial of degree n-1 or less, as shown:
+				R(X)= r0+ r1X+…..+rn-1Xn-1
+The reminder s(X) is a polynomial of degree n-k-1 or less, which is the result of interest. It is called the syndrome polynomial because its coefficients make up the n-k-1 syndrome s. The fact that the received bits are fed into the n-k stages of the feedback register from the left. As soon as all the received bits have been shifted into the shift register, its content defines the syndrome s.
+The syndrome polynomial s(X) has the following useful properties that follow the definition:
+1.The syndrome of a received polynomial is also the syndrome of the corresponding error polynomial
+Given a cyclic code with polynomial c(X) is sent over a noisy channel. The received word polynomial is defined by
+r(X)=c(X)+e(X)
+where e(X) is the error polynomial. Equivalently, it may be written as
+e(X) = r(X) + c(X)
+Hence, we get
+e(X) = u(X).g(X) + s(X)
+where the quotient is u(X) = a(X) + q(X). The equation shows that s(X) is also the syndrome of the error polynomial e(X). The implication of this property is that when the syndrome polynomial s(X) is non zero , the presense of transmission errors in a received word is detected.
+2.Let s(X) be the syndrome of a received word polynomial r(X). Then , the syndrome of Xr(X) , a cyclic shift in r(X) is Xs(X)
+
+Applying a cyclic shift to both the sides ,
+Xr(X) = Xq(X)g(X) + Xs(X)
+From which it is seen that Xs(X) is the reminder of the division of Xr(X) by             g(X). Hence , the syndrome of Xr(X) is Xs(X) as stated. The result may be generalised such that if s(X) is the syndrome if r(X) , then Xis(X) is the syndrome of Xir(X)	.
+3.The syndrome polynomial s(X) is identical to the error polynomial e(X), assuming that the errors are confined to be the n-k parity check bits of the received word polynomial r(X)
+ 
+
+The assumption made here is another way of saying that the degree of the error polynomial e(X) is less than or equal to the degree (i.e n-k-1). Since the generator polynomial g(X) is of degree n-k , by definition , e(X) can be satisfied if the quotient u(X) is zero. In other words, the error polynomial e(X) and the syndrome polynomial s(X) are one and the same. The implication is that , under the aforementioned conditions , error correction can be accomplished simply by adding the syndrome polynomial s(X) to the received word polynomial r(X).
+
+
+
+Ripple Counter
+Introduction
+		 A counter is a device which stores (and sometimes displays) the number of times a particular event or process has occurred, often in relationship to a clock signal. An asynchronous (ripple) counter is a single JK flip flop with its J (data) input fed from its own inverted output. This circuit can store one bit, and hence can count from zero to one before it overflows (starts over from 0). This counter will increment once for every clock cycle and takes two clock cycles to overflow, so every cycle it will alternate between a transition from 0 to 1 and a transition from 1 to 0. Notice that this creates a new clock with a 50% duty cycle at exactly half the frequency of the input clock. If this output is then used as the clock signal for a similarly arranged D flip-flop (remembering to invert the output to the input), you will get another 1 bit counter that counts half as fast. Putting them together yields a two-bit counter:
+Cycle	Q1	Q0	(Q1:Q0)dec
+0	0	0	0
+1	0	1	1
+2	1	0	2
+3	1	1	3
+4	0	0	0
+More flip-flops can be added , always inverting the output to its own input, and using the output from the previous flip-flop as the clock signal. The result is called a ripple counter, which can count to 2n − 1 where n is the number of bits (flip-flop stages) in the counter. Ripple counters suffer from unstable outputs as the overflows "Ripple" from stage to stage, but they do find frequent application as dividers for clock signals, where the instantaneous count is unimportant, but the division ratio overall is (to clarify this, a 1-bit counter is exactly equivalent to a divide by two circuit; the output frequency is exactly half that of the input when fed with a regular train of clock pulses).
+The use of flip-flop outputs as clocks leads to timing skew between the count data bits, making this ripple technique incompatible with normal synchronous circuit design styles.
+The first flip-flop (the one with the Q0 output), has a positive-edge triggered clock input, so it toggles with each rising edge of the clock signal. Notice how the clock signal in this example has a duty cycle less than 50%. I've shown the signal in this manner for the purpose of demonstrating how the clock signal need not be symmetrical to obtain reliable, "clean" output bits in our four-bit binary sequence. In the very first flip-flop circuit shown in this chapter, I used the clock signal itself as one of the output bits. This is a bad practice in counter design, though, because it necessitates the use of a square wave signal with a 50% duty cycle ("high" time = "low" time) in order to obtain a count sequence where each and every step pauses for the same amount of time. Using one J-K flip-flop for each output bit, however, relieves us of the necessity of having a symmetrical clock signal, allowing the use of practically any variety of high/low waveform to increment the count sequence.
+As indicated by all the other arrows in the pulse diagram, each succeeding output bit is toggled by the action of the preceding bit transitioning from "high" (1) to "low" (0). This is the pattern necessary to generate an "up" count sequence.
+A less obvious solution for generating an "up" sequence using positive-edge triggered flip-flops is to "clock" each flip-flop using the Q' output of the preceding flip-flop rather than the Q output. Since the Q' output will always be the exact opposite state of the Q output on a J-K flip-flop (no invalid states with this type of flip-flop), a high-to-low transition on the Q output will be accompanied by a low-to-high transition on the Q' output. In other words, each time the Q output of a flip-flop transitions from 1 to 0, the Q' output of the same flip-flop will transition from 0 to 1, providing the positive-going clock pulse we would need to toggle a positive-edge triggered flip-flop at the right moment:
+The first flip-flop (the one with the Q0 output), has a positive-edge triggered clock input, so it toggles with each rising edge of the clock signal. Notice how the clock signal in this example has a duty cycle less than 50%. I've shown the signal in this manner for the purpose of demonstrating how the clock signal need not be symmetrical to obtain reliable, "clean" output bits in our four-bit binary sequence. In the very first flip-flop circuit shown in this chapter, I used the clock signal itself as one of the output bits. This is a bad practice in counter design, though, because it necessitates the use of a square wave signal with a 50% duty cycle ("high" time = "low" time) in order to obtain a count sequence where each and every step pauses for the same amount of time. Using one J-K flip-flop for each output bit, however, relieves us of the necessity of having a symmetrical clock signal, allowing the use of practically any variety of high/low waveform to increment the count sequence.
+A less obvious solution for generating an "up" sequence using positive-edge triggered flip-flops is to "clock" each flip-flop using the Q' output of the preceding flip-flop rather than the Q output. Since the Q' output will always be the exact opposite state of the Q output on a J-K flip-flop (no invalid states with this type of flip-flop), a high-to-low transition on the Q output will be accompanied by a low-to-high transition on the Q' output. In other words, each time the Q output of a flip-flop transitions from 1 to 0, the Q' output of the same flip-flop will transition from 0 to 1, providing the positive-going clock pulse we would need to toggle a positive-edge triggered flip-flop at the right moment:
+ 
+
+
